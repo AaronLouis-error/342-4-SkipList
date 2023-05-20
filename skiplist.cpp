@@ -86,6 +86,7 @@ SkipList::SkipList(int levels, int probability)
   assert(levels > 0 && probability >= 0 && probability < 100);
   head = new SNode(INT_MIN);
   tail = new SNode(INT_MAX);
+  SNode *temp = new SNode(0);
   for (int currLevel = 0; currLevel < levels; currLevel++)
   {
     head->next.push_back(tail);
@@ -96,7 +97,7 @@ SkipList::SkipList(int levels, int probability)
   this->probability = probability;
 }
 
-bool SkipList::shouldInsertAtHigher() const
+bool SkipList::shouldInsertAtHigherLevel() const
 {
   return probability >= Random::random() % 100;
 }
@@ -106,13 +107,13 @@ SNode *SkipList::getNode(int val) const
   SNode *temp = head;
   for (int currLevel = levels - 1; currLevel >= 0; currLevel--)
   {
-    // while (temp->next[currLevel] != nullptr &&
-    //        temp->next[currLevel]->val <= val)
-    // {
-    // }
-    while (temp->val != tail->val &&
+    while (temp->next[currLevel] != nullptr &&
            temp->next[currLevel]->val <= val)
     {
+
+      // while (temp->val != tail->val &&
+      //        temp->next[currLevel]->val <= val)
+      // {
       temp = temp->next[currLevel];
       if (temp->val == val)
       {
@@ -143,9 +144,8 @@ vector<SNode *> SkipList::getBeforeNodes(int val) const
 
 void SkipList::add(int val)
 {
-  if (!(val == head->val || val == tail->val))
+  if (!(val == head->val)) //|| val == tail->val))
   {
-
     int insertLevel = 0;
     auto insert = new SNode(val);
     vector<SNode *> vec = getBeforeNodes(val);
@@ -163,7 +163,7 @@ void SkipList::add(int val)
         insert->backward.push_back(vec[insertLevel]);
         keep->backward[insertLevel] = insert;
         insertLevel++;
-      } while (shouldInsertAtHigher() && insertLevel < levels);
+      } while (shouldInsertAtHigherLevel() && insertLevel < levels);
     }
   }
 }

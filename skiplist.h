@@ -42,6 +42,11 @@ private:
   // data contained in the object
   int val{0};
 
+  // copy constructor
+  SNode(const SNode &other);
+
+  SNode();
+
   // link to Next SNode
   vector<SNode *> next;
 
@@ -70,7 +75,7 @@ private:
 
   // return true p% of time,
   // for p = 50, each node has a 50% chance of being at higher level
-  bool shouldInsertAtHigher() const;
+  bool shouldInsertAtHigherLevel() const;
 
   // return the node, or the node before where the node would have been
   SNode *getNode(int val) const;
