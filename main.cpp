@@ -97,7 +97,7 @@ void test2()
   SkipList *skp2 = new SkipList(*skp1);
   delete skp1;
   outSS << *skp2;
-  // cout << "skp2: " << outSS.str() << endl;
+  cout << "skp2: " << outSS.str() << endl;
   assert(outSS.str() == "[level: 1] 1-->5-->7-->9-->nullptr\n");
   delete skp2;
   // TODO(student) check there are no memory leaks after test completed
