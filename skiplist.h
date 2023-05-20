@@ -101,10 +101,10 @@ public:
   // SkipList &operator=(SkipList &&other) = delete;
 
   // return true if successfully added, no duplicates allowed
-  bool add(int val);
+  void add(int val);
 
   // return true if successfully added, no duplicates
-  bool add(const vector<int> &vals);
+  void add(const vector<int> &vals);
 
   // return true if successfully removed
   bool remove(int data);

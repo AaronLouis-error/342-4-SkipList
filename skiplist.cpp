@@ -141,43 +141,39 @@ vector<SNode *> SkipList::getBeforeNodes(int val) const
   return ret;
 }
 
-bool SkipList::add(int val)
+void SkipList::add(int val)
 {
-  if (val == head->val || val == tail->val)
+  if (!(val == head->val || val == tail->val))
   {
-    return false;
-  }
-  int insertLevel = 0;
-  auto insert = new SNode(val);
-  vector<SNode *> vec = getBeforeNodes(val);
-  if (vec[0]->val == val)
-  {
-    delete insert;
-    return false;
-  }
-  do
-  {
-    SNode *keep = vec[insertLevel]->next[insertLevel];
-    insert->next.push_back(vec[insertLevel]->next[insertLevel]);
-    vec[insertLevel]->next[insertLevel] = insert;
-    insert->backward.push_back(vec[insertLevel]);
-    keep->backward[insertLevel] = insert;
-    insertLevel++;
-  } while (shouldInsertAtHigher() && insertLevel < levels);
-  return true;
-}
 
-bool SkipList::add(const vector<int> &vals)
-{
-  bool ret = true;
-  for (int val : vals)
-  {
-    if (!add(val))
+    int insertLevel = 0;
+    auto insert = new SNode(val);
+    vector<SNode *> vec = getBeforeNodes(val);
+    if (vec[0]->val == val)
     {
-      ret = false;
+      delete insert;
+    }
+    else
+    {
+      do
+      {
+        SNode *keep = vec[insertLevel]->next[insertLevel];
+        insert->next.push_back(vec[insertLevel]->next[insertLevel]);
+        vec[insertLevel]->next[insertLevel] = insert;
+        insert->backward.push_back(vec[insertLevel]);
+        keep->backward[insertLevel] = insert;
+        insertLevel++;
+      } while (shouldInsertAtHigher() && insertLevel < levels);
     }
   }
-  return ret;
+}
+
+void SkipList::add(const vector<int> &vals)
+{
+  for (int val : vals)
+  {
+    add(val);
+  }
 }
 
 SkipList::~SkipList()
