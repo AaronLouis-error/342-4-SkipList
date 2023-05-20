@@ -37,13 +37,13 @@ class SNode
 
 private:
   // constructor
-  explicit SNode(int value);
+  explicit SNode(int val);
 
   // data contained in the object
-  int value{0};
+  int val{0};
 
   // link to Next SNode
-  vector<SNode *> forward;
+  vector<SNode *> next;
 
   // link to Prev SNode
   vector<SNode *> backward;
@@ -56,7 +56,7 @@ class SkipList
 
 private:
   // maximum number of levels
-  int maxLevel = 1;
+  int levels = 1;
 
   // probability of inserting at a higher level
   // as an integer between 0% and 100% (exclusive)
@@ -73,17 +73,17 @@ private:
   bool shouldInsertAtHigher() const;
 
   // return the node, or the node before where the node would have been
-  SNode *getNode(int value) const;
+  SNode *getNode(int val) const;
 
   // get vector of getNode results at each level
-  vector<SNode *> getBeforeNodes(int value) const;
+  vector<SNode *> getBeforeNodes(int val) const;
 
 public:
   // copy constructor
   SkipList(const SkipList &other);
 
   // default SkipList has only 1 level, just one doubly-linked list
-  explicit SkipList(int maxLevel = 1, int probability = 0);
+  explicit SkipList(int levels = 1, int probability = 0);
 
   // destructor
   virtual ~SkipList();
@@ -101,10 +101,10 @@ public:
   // SkipList &operator=(SkipList &&other) = delete;
 
   // return true if successfully added, no duplicates allowed
-  bool add(int value);
+  bool add(int val);
 
   // return true if successfully added, no duplicates
-  bool add(const vector<int> &values);
+  bool add(const vector<int> &vals);
 
   // return true if successfully removed
   bool remove(int data);
