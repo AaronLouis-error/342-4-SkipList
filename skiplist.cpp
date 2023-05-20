@@ -157,11 +157,8 @@ void SkipList::add(int val)
     {
       do
       {
-        SNode *keep = vec[insertLevel]->next[insertLevel];
         insert->next.push_back(vec[insertLevel]->next[insertLevel]);
         vec[insertLevel]->next[insertLevel] = insert;
-        insert->backward.push_back(vec[insertLevel]);
-        keep->backward[insertLevel] = insert;
         insertLevel++;
       } while (shouldInsertAtHigherLevel() && insertLevel < levels);
     }
