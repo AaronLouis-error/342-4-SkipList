@@ -6,6 +6,7 @@
 #include <climits>
 #include <cstdlib>
 #include <iostream>
+#include "random.h"
 
 #include "skiplist.h"
 
@@ -92,11 +93,12 @@ SkipList::SkipList(int maxLevel, int probability)
     tail->backward.push_back(head);
     tail->forward.push_back(nullptr);
   }
+  this->probability = probability;
 }
 
 bool SkipList::shouldInsertAtHigher() const
 {
-  return rand() % 100 < probability;
+  return probability >= Random::random() % 100;
 }
 
 SNode *SkipList::getNode(int value) const
@@ -127,8 +129,10 @@ vector<SNode *> SkipList::getBeforeNodes(int value) const
   SNode *temp = head;
   for (int currLevel = maxLevel - 1; currLevel >= 0; currLevel--)
   {
-    while (temp->value != tail->value &&
+    while (temp->forward[currLevel] != nullptr &&
            temp->forward[currLevel]->value <= value)
+    // while (temp->value != tail->value &&
+    //        temp->forward[currLevel]->value <= value)
     {
       temp = temp->forward[currLevel];
     }
