@@ -19,6 +19,7 @@ ostream &operator<<(ostream &out, const SkipList &skip)
     auto *curr = skip.head->forward[d];
     if (curr->forward[d] != nullptr)
     {
+      // cout << curr->value;
       out << curr->value;
       curr = curr->forward[d];
     }
@@ -31,15 +32,52 @@ ostream &operator<<(ostream &out, const SkipList &skip)
 
     if (curr->forward[d] == nullptr)
     {
-      out << "-->nullptr";
+      out << "-->nullptr\n";
     }
 
-    out << endl;
+    // out << endl;
   }
   return out;
 }
 
 SNode::SNode(int value) : value{value} {}
+
+// copy constructor
+SkipList::SkipList(const SkipList &other)
+{
+  // cout << "constructor 2 called" << endl;
+  this->maxLevel = other.maxLevel - 1;
+  this->head = new SNode(0);
+
+  for (int d = other.maxLevel - 1; d >= 0; d--)
+  {
+    SNode *curr = other.head->forward[d];
+    SNode *thisCurr = this->head;
+
+    if (curr->forward[d] != nullptr)
+    {
+      SNode *temp = new SNode(curr->value);
+      thisCurr->forward.push_back(temp);
+      curr = curr->forward[d];
+      thisCurr = thisCurr->forward[d];
+    }
+    // cout << "before while loop: " << endl;
+    while (curr != nullptr && curr->forward[d] != nullptr)
+    {
+      SNode *temp = new SNode(curr->value);
+      thisCurr->forward.push_back(temp);
+      curr = curr->forward[d];
+      thisCurr = thisCurr->forward[d];
+    }
+    // cout << "after while loop" << endl;
+    if (curr->forward[d] == nullptr)
+    {
+      thisCurr->forward.push_back(nullptr);
+    }
+  }
+  this->probability = other.probability;
+  // cout << "copy finished" << endl;
+}
 
 SkipList::SkipList(int maxLevel, int probability)
     : maxLevel{maxLevel}, probability{probability}
@@ -66,6 +104,10 @@ SNode *SkipList::getNode(int value) const
   SNode *temp = head;
   for (int currLevel = maxLevel - 1; currLevel >= 0; currLevel--)
   {
+    // while (temp->forward[currLevel] != nullptr &&
+    //        temp->forward[currLevel]->value <= value)
+    // {
+    // }
     while (temp->value != tail->value &&
            temp->forward[currLevel]->value <= value)
     {

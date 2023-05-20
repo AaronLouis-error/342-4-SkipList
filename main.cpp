@@ -55,51 +55,52 @@ void test1()
   SkipList skp;
   skp.add(3);
   outSS << skp;
-  cout << outSS.str() << endl;
+  // cout << outSS.str() << endl;
   assert(outSS.str() == "[level: 1] 3-->nullptr\n");
 
   skp.add(9);
   outSS.str("");
   outSS << skp;
-  cout << outSS.str() << endl;
+  cout << "skp; " << outSS.str() << endl;
   assert(outSS.str() == "[level: 1] 3-->9-->nullptr\n");
 
-  // skp.add(1);
-  // outSS.str("");
-  // outSS << skp;
-  // assert(outSS.str() == "[level: 1] 1-->3-->9-->nullptr\n");
+  skp.add(1);
+  outSS.str("");
+  outSS << skp;
+  assert(outSS.str() == "[level: 1] 1-->3-->9-->nullptr\n");
 
-  // skp.add(vector<int>{7, 5});
-  // outSS.str("");
-  // outSS << skp;
-  // assert(outSS.str() == "[level: 1] 1-->3-->5-->7-->9-->nullptr\n");
+  skp.add(vector<int>{7, 5});
+  outSS.str("");
+  outSS << skp;
+  assert(outSS.str() == "[level: 1] 1-->3-->5-->7-->9-->nullptr\n");
 
-  // assert(skp.contains(1) && skp.contains(7) && skp.contains(9));
-  // assert(!skp.contains(0) && !skp.contains(20));
+  assert(skp.contains(1) && skp.contains(7) && skp.contains(9));
+  assert(!skp.contains(0) && !skp.contains(20));
 
-  // // TODO(student) check there are no memory leaks after test completed
-  // cout << "test1 done." << endl;
+  // TODO(student) check there are no memory leaks after test completed
+  cout << "test1 done." << endl;
 }
 
 // testing the copy constructor for the SkipList
 void test2()
 {
-  // stringstream outSS;
-  // SkipList *skp1 = new SkipList;
-  // skp1->add(vector<int>{9, 1, 7, 5});
+  stringstream outSS;
+  SkipList *skp1 = new SkipList;
+  skp1->add(vector<int>{9, 1, 7, 5});
 
-  // outSS.str("");
-  // outSS << *skp1;
-  // assert(outSS.str() == "[level: 1] 1-->5-->7-->9-->nullptr\n");
+  outSS.str("");
+  outSS << *skp1;
+  // cout << "skp1: " << outSS.str() << endl;
+  assert(outSS.str() == "[level: 1] 1-->5-->7-->9-->nullptr\n");
 
-  // SkipList *skp2 = new SkipList(*skp1);
-  // delete skp1;
-  // outSS.str("");
-  // outSS << *skp2;
-  // assert(outSS.str() == "[level: 1] 1-->5-->7-->9-->nullptr\n");
-  // delete skp2;
-  // // TODO(student) check there are no memory leaks after test completed
-  // cout << "test2 done." << endl;
+  SkipList *skp2 = new SkipList(*skp1);
+  delete skp1;
+  outSS << *skp2;
+  // cout << "skp2: " << outSS.str() << endl;
+  assert(outSS.str() == "[level: 1] 1-->5-->7-->9-->nullptr\n");
+  delete skp2;
+  // TODO(student) check there are no memory leaks after test completed
+  cout << "test2 done." << endl;
 }
 
 // testing SkipList with multiple levels

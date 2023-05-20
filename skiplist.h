@@ -30,7 +30,8 @@ using namespace std;
 
 class SkipList;
 
-class SNode {
+class SNode
+{
   friend class SkipList;
   friend ostream &operator<<(ostream &out, const SkipList &skip);
 
@@ -48,7 +49,8 @@ private:
   vector<SNode *> backward;
 };
 
-class SkipList {
+class SkipList
+{
   // display with level
   friend ostream &operator<<(ostream &out, const SkipList &skip);
 
@@ -77,6 +79,9 @@ private:
   vector<SNode *> getBeforeNodes(int value) const;
 
 public:
+  // copy constructor
+  SkipList(const SkipList &other);
+
   // default SkipList has only 1 level, just one doubly-linked list
   explicit SkipList(int maxLevel = 1, int probability = 0);
 
@@ -84,16 +89,16 @@ public:
   virtual ~SkipList();
 
   // copy not allowed
-  SkipList(const SkipList &other) = delete;
+  // SkipList(const SkipList &other) = delete;
 
   // move not allowed
-  SkipList(SkipList &&other) = delete;
+  // SkipList(SkipList &&other) = delete;
 
   // assignment not allowed
-  SkipList &operator=(const SkipList &other) = delete;
+  // SkipList &operator=(const SkipList &other) = delete;
 
   // move assignment not allowed
-  SkipList &operator=(SkipList &&other) = delete;
+  // SkipList &operator=(SkipList &&other) = delete;
 
   // return true if successfully added, no duplicates allowed
   bool add(int value);
