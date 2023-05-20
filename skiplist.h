@@ -51,7 +51,7 @@ private:
   vector<SNode *> next;
 
   // link to Prev SNode
-  vector<SNode *> backward;
+  // vector<SNode *> backward;
 };
 
 class SkipList
@@ -71,7 +71,7 @@ private:
   SNode *head;
 
   // tail of linked levels
-  SNode *tail;
+  // SNode *tail;
 
   // return true p% of time,
   // for p = 50, each node has a 50% chance of being at higher level

@@ -85,26 +85,13 @@ SkipList::SkipList(const SkipList &other)
 SkipList::SkipList(int levels, int probability)
     : levels{levels}, probability{probability}
 {
-  cout << "constructor 2 called" << endl;
   assert(levels > 0 && probability >= 0 && probability < 100);
   head = new SNode(INT_MIN);
-  tail = new SNode(INT_MAX);
+  // tail = new SNode(INT_MAX);
   SNode temp(0);
   cout << "levels: " << levels << endl;
   vector<SNode *> afters(levels, nullptr);
   head->next = afters;
-  // for (int currLevel = 0; currLevel < levels; currLevel++)
-  // {
-  //   // head->next.push_back(&temp);
-
-  //   // head->next[currLevel]->next.push_back(nullptr);
-  //   cout << "tail: " << tail->val << endl;
-  //   head->next.push_back(tail);
-  //   //  head->backward.push_back(nullptr);
-  //   //  tail->backward.push_back(head);
-  //   tail->next.push_back(nullptr);
-  //   temp.next.push_back(nullptr);
-  // }
 
   this->probability = probability;
 }
