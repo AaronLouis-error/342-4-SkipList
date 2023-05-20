@@ -21,18 +21,20 @@ ostream &operator<<(ostream &out, const SkipList &skip)
     if (curr->next[d] != nullptr)
     {
       // cout << curr->val;
-      out << curr->val;
+      out << curr->val << "-->";
       curr = curr->next[d];
     }
 
     while (curr != nullptr && curr->next[d] != nullptr)
     {
-      out << "-->" << curr->val;
+      out << curr->val;
+      out << "-->";
       curr = curr->next[d];
     }
 
     if (curr->next[d] == nullptr)
     {
+      out << curr->val;
       out << "-->nullptr\n";
     }
 
@@ -83,17 +85,27 @@ SkipList::SkipList(const SkipList &other)
 SkipList::SkipList(int levels, int probability)
     : levels{levels}, probability{probability}
 {
+  cout << "constructor 2 called" << endl;
   assert(levels > 0 && probability >= 0 && probability < 100);
   head = new SNode(INT_MIN);
   tail = new SNode(INT_MAX);
-  SNode *temp = new SNode(0);
-  for (int currLevel = 0; currLevel < levels; currLevel++)
-  {
-    head->next.push_back(tail);
-    head->backward.push_back(nullptr);
-    tail->backward.push_back(head);
-    tail->next.push_back(nullptr);
-  }
+  SNode temp(0);
+  cout << "levels: " << levels << endl;
+  vector<SNode *> afters(levels, nullptr);
+  head->next = afters;
+  // for (int currLevel = 0; currLevel < levels; currLevel++)
+  // {
+  //   // head->next.push_back(&temp);
+
+  //   // head->next[currLevel]->next.push_back(nullptr);
+  //   cout << "tail: " << tail->val << endl;
+  //   head->next.push_back(tail);
+  //   //  head->backward.push_back(nullptr);
+  //   //  tail->backward.push_back(head);
+  //   tail->next.push_back(nullptr);
+  //   temp.next.push_back(nullptr);
+  // }
+
   this->probability = probability;
 }
 
@@ -128,12 +140,11 @@ vector<SNode *> SkipList::getBeforeNodes(int val) const
 {
   vector<SNode *> ret;
   SNode *temp = head;
+  // ret.insert(ret.begin(), temp);
   for (int currLevel = levels - 1; currLevel >= 0; currLevel--)
   {
     while (temp->next[currLevel] != nullptr &&
            temp->next[currLevel]->val <= val)
-    // while (temp->val != tail->val &&
-    //        temp->next[currLevel]->val <= val)
     {
       temp = temp->next[currLevel];
     }
@@ -146,11 +157,13 @@ void SkipList::add(int val)
 {
   if (!(val == head->val)) //|| val == tail->val))
   {
+    // cout << "in first if" << endl;
     int insertLevel = 0;
     auto insert = new SNode(val);
     vector<SNode *> vec = getBeforeNodes(val);
     if (vec[0]->val == val)
     {
+      // cout << "in second if" << endl;
       delete insert;
     }
     else
@@ -194,8 +207,10 @@ bool SkipList::remove(int data)
   }
   for (int currLevel = temp->next.size() - 1; currLevel >= 0; currLevel--)
   {
-    temp->next[currLevel]->backward[currLevel] = temp->backward[currLevel];
-    temp->backward[currLevel]->next[currLevel] = temp->next[currLevel];
+    // temp->next[currLevel]->backward[currLevel] = temp->backward[currLevel];
+    // pointer to temp should connect to
+
+    // temp->backward[currLevel]->next[currLevel] = temp->next[currLevel];
   }
   delete temp;
   return true;

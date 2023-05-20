@@ -55,18 +55,19 @@ void test1()
   SkipList skp;
   skp.add(3);
   outSS << skp;
-  // cout << outSS.str() << endl;
+  cout << outSS.str() << endl;
   assert(outSS.str() == "[level: 1] 3-->nullptr\n");
 
   skp.add(9);
   outSS.str("");
   outSS << skp;
-  // cout << "skp; " << outSS.str() << endl;
+  cout << "skp; " << outSS.str() << endl;
   assert(outSS.str() == "[level: 1] 3-->9-->nullptr\n");
 
   skp.add(1);
   outSS.str("");
   outSS << skp;
+  cout << outSS.str() << endl;
   assert(outSS.str() == "[level: 1] 1-->3-->9-->nullptr\n");
 
   skp.add(vector<int>{7, 5});
